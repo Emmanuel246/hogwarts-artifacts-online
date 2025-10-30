@@ -271,6 +271,46 @@ public class WizardControllerTest {
     }
 
 
+    @Test
+    void testAssignArtifactSuccess() throws Exception {
+        // Given
+        doNothing().when(this.wizardService).assignArtifact(2, "123456789");
+
+        // when and then
+        this.mockMvc.perform(put(this.baseUrl + "/wizards/2/artifacts/123456789").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(true))
+                .andExpect(jsonPath("$.code").value(StatusCode.SUCCESS))
+                .andExpect(jsonPath("$.message").value("Artifact Assignment Success"))
+                .andExpect(jsonPath("$.data").isEmpty());
+
+    }
 
 
+    @Test
+    void testAssignArtifactErrorWithNonExistentWizardId() throws Exception {
+        // Given
+      doThrow(new ObjectNotFoundException("wizard", 5)).when(this.wizardService).assignArtifact(5, "123456789");
+
+        // when and then
+        this.mockMvc.perform(put(this.baseUrl + "/wizards/5/artifacts/123456789").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
+                .andExpect(jsonPath("$.message").value("Could not find wizard with id: 5 :("))
+                .andExpect(jsonPath("$.data").isEmpty());
+
+    }
+
+    @Test
+    void testAssignArtifactErrorWithNonExistentArtifactId() throws Exception {
+        // Given
+        doThrow(new ObjectNotFoundException("artifact", "1111111111111")).when(this.wizardService).assignArtifact(2, "1111111111111");
+
+        // when and then
+        this.mockMvc.perform(put(this.baseUrl + "/wizards/2/artifacts/1111111111111").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.flag").value(false))
+                .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
+                .andExpect(jsonPath("$.message").value("Could not find artifact with id: 1111111111111 :("))
+                .andExpect(jsonPath("$.data").isEmpty());
+
+    }
 }
