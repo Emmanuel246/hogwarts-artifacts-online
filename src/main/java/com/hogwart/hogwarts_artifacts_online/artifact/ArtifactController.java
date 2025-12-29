@@ -15,14 +15,11 @@ import java.util.stream.Collectors;
 @RequestMapping("${api.endpoint.base-url}/artifacts")
 public class ArtifactController {
 
-    private ArtifactService artifactService;
+    private final ArtifactService artifactService;
 
     private final ArtifactToArtifactDtoConverter artifactToArtifactDtoConverter;
 
     private final ArtifactDtoToArtifactConverter artifactDtoToArtifactConverter;
-
-
-
 
 
     public ArtifactController(ArtifactService artifactService, ArtifactToArtifactDtoConverter artifactToArtifactDtoConverter, ArtifactDtoToArtifactConverter artifactDtoToArtifactConverter) {

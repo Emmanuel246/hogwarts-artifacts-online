@@ -3,6 +3,7 @@ package com.hogwart.hogwarts_artifacts_online.artifact;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hogwart.hogwarts_artifacts_online.artifact.dto.ArtifactDto;
+import com.hogwart.hogwarts_artifacts_online.hogwartsuser.UserService;
 import com.hogwart.hogwarts_artifacts_online.system.StatusCode;
 import com.hogwart.hogwarts_artifacts_online.system.exception.ObjectNotFoundException;
 import org.hamcrest.Matchers;
@@ -14,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -41,6 +44,8 @@ class ArtifactControllerTest {
 
     @MockBean
     ArtifactService artifactService;
+
+
 
     @Autowired
     ObjectMapper objectMapper;

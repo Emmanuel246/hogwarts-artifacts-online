@@ -2,6 +2,8 @@ package com.hogwart.hogwarts_artifacts_online.system;
 
 import com.hogwart.hogwarts_artifacts_online.artifact.Artifact;
 import com.hogwart.hogwarts_artifacts_online.artifact.ArtifactRepository;
+import com.hogwart.hogwarts_artifacts_online.hogwartsuser.HogwartsUser;
+import com.hogwart.hogwarts_artifacts_online.hogwartsuser.UserRepository;
 import com.hogwart.hogwarts_artifacts_online.wizard.Wizard;
 import com.hogwart.hogwarts_artifacts_online.wizard.WizardRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -14,9 +16,12 @@ public class DBDataInitializer implements CommandLineRunner {
 
     private final WizardRepository wizardRepository;
 
-    public DBDataInitializer(ArtifactRepository artifactRepository, WizardRepository wizardRepository) {
+    private final UserRepository userRepository;
+
+    public DBDataInitializer(ArtifactRepository artifactRepository, WizardRepository wizardRepository, UserRepository userRepository) {
         this.artifactRepository = artifactRepository;
         this.wizardRepository = wizardRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -62,7 +67,6 @@ public class DBDataInitializer implements CommandLineRunner {
         w1.setName("Albus Dumbledore");
         w1.addArtifact(a1);
         w1.addArtifact(a3);
-        // Don't manually set the id for the wizard, let the database generate it.
 
         Wizard w2 = new Wizard();
         w2.setName("Harry Potter");
@@ -78,5 +82,31 @@ public class DBDataInitializer implements CommandLineRunner {
         wizardRepository.save(w3);
 
         artifactRepository.save(a6);
+
+        // Create some users
+        HogwartsUser u1 = new HogwartsUser();
+        // u1.setId(1);  ❌ REMOVED - Let JPA auto-generate
+        u1.setUsername("John");
+        u1.setPassword("123456");
+        u1.setEnabled(true);
+        u1.setRoles("admin user");
+
+        HogwartsUser u2 = new HogwartsUser();
+        // u2.setId(2);  ❌ REMOVED - Let JPA auto-generate
+        u2.setUsername("Eric");
+        u2.setPassword("qwerty");
+        u2.setEnabled(false);
+        u2.setRoles("user");
+
+        HogwartsUser u3 = new HogwartsUser();
+        // u3.setId(3);  ❌ REMOVED - Let JPA auto-generate
+        u3.setUsername("jerry");
+        u3.setPassword("87654321");
+        u3.setEnabled(true);
+        u3.setRoles("user");
+
+        this.userRepository.save(u1);
+        this.userRepository.save(u2);
+        this.userRepository.save(u3);
     }
 }
